@@ -25,7 +25,14 @@ export const api = createApi({
         body: user,
       }),
     }),
+    signInUser: builder.mutation<IUser, Partial<IUser>>({
+      query: (data) => ({
+        url: `/api/v1/auth/signin`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetRecentBooksQuery, useGetBooksQuery, useCreateUserMutation } = api
+export const { useGetRecentBooksQuery, useGetBooksQuery, useCreateUserMutation, useSignInUserMutation } = api

@@ -79,7 +79,7 @@ export default function SignUp() {
             />
           </div>
           <Input
-            className="cursor-pointer bg-blue-gray-900 text-white border-none"
+            className="cursor-pointer bg-black text-white border-none"
             type="submit"
             value="Register"
             size="lg"
