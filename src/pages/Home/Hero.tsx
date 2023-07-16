@@ -10,7 +10,7 @@ const Hero = () => {
                     <h4 className="text-xl mb-6">Sell Your Book</h4>
                     <h1 className="text-4xl lg:text-6xl mb-6">Reading Is Essential</h1>
                     <p className="mb-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque doloribus, sapiente facere neque exercitationem suscipit ipsam sed explicabo recusandae nihil asperiores</p>
-                    <MyButton text={'Shop Now'}></MyButton>
+                    <MyButton>Shop Now</MyButton>
                 </div>
                 <div className="basis-2/4">
                     <img className="w-full" src={booksImg} alt="" />

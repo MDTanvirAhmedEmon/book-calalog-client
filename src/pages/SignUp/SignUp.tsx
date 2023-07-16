@@ -1,50 +1,89 @@
-import {
-    Card,
-    Input,
-    Checkbox,
-    Button,
-    Typography,
-  } from "@material-tailwind/react";
-   
-  export default function SignUp() {
-    return (
-      <div className="pt-12 pb-12 container mx-auto">
-        <Card className="" color="transparent" shadow={false}>
-        <Typography className="text-center" variant="h4" color="blue-gray">
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { Card, Input, Typography } from "@material-tailwind/react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useCreateUserMutation } from "../../redux/api/apiSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
+
+interface IFormInput {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export default function SignUp() {
+  const navigate = useNavigate()
+  const [createUser, { isLoading, isError, isSuccess }] =
+    useCreateUserMutation();
+
+  console.log(isLoading);
+  console.log(isError);
+  console.log(isSuccess);
+
+  const { register, handleSubmit } = useForm<IFormInput>();
+
+  const onSubmit: SubmitHandler<IFormInput> = async(data) => {
+    console.log(data);
+    try {
+ 
+      const result = await createUser(data);
+      console.log(result);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (result.data.success) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const user = result.data.data;
+        localStorage.setItem('user', JSON.stringify(user));
+      }
+
+      // Mutation was successful
+    } catch (error) {
+      console.log("Error occurred during user creation:", error);
+    }
+  };
+  if(isSuccess){
+    toast("User created successfully")
+    navigate('/')
+  }
+
+
+  return (
+    <div className="container mx-auto text-center my-20">
+      <Card color="transparent" shadow={false}>
+        <Typography variant="h4" color="blue-gray">
           Sign Up
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal text-center">
+        <Typography color="gray" className="mt-1 font-normal">
           Enter your details to register.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 mx-auto">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 mx-auto"
+        >
           <div className="mb-4 flex flex-col gap-6">
-            <Input className="" color="green" size="lg" label="Name" />
-            <Input size="lg" color="green" label="Email" />
-            <Input type="password" color="green" size="lg" label="Password" />
+            <Input
+              {...register("name", { required: true })}
+              size="lg"
+              label="Name"
+            />
+            <Input
+              {...register("email", { required: true })}
+              size="lg"
+              label="Email"
+            />
+            <Input
+              {...register("password", { required: true })}
+              type="password"
+              size="lg"
+              label="Password"
+            />
           </div>
-          <Checkbox
-            label={
-              (
-                <Typography
-                  variant="small"
-                  color="gray"
-                  className="flex items-center font-normal"
-                >
-                  I agree the
-                  <a
-                    href="#"
-                    className="font-medium transition-colors hover:text-blue-500"
-                  >
-                    &nbsp;Terms and Conditions
-                  </a>
-                </Typography>
-              )
-            }
-            containerProps={{ className: "-ml-2.5" }}
+          <Input
+            className="cursor-pointer bg-blue-gray-900 text-white border-none"
+            type="submit"
+            value="Register"
+            size="lg"
           />
-          <Button className="mt-6 bg-red-500" fullWidth>
-            Register
-          </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}
             <a
@@ -56,6 +95,6 @@ import {
           </Typography>
         </form>
       </Card>
-      </div>
-    );
-  }
+    </div>
+  );
+}

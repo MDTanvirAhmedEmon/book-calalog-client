@@ -1,40 +1,49 @@
 import {
-    Card,
-    Input,
-    Button,
-    Typography,
-  } from "@material-tailwind/react";
-   
-  export default function SignIn() {
-    return (
-      <div className="pt-12 pb-12 container mx-auto">
-        <Card className="" color="transparent" shadow={false}>
-        <Typography className="text-center" variant="h4" color="blue-gray">
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Input,
+  Button,
+} from "@material-tailwind/react";
+ 
+export default function SignIn() {
+  return (
+    <div className="container mx-auto py-20">
+    <Card className="w-96 mx-auto">
+      <CardHeader
+        variant="gradient"
+        className="mb-4 grid h-28 place-items-center bg-black"
+      >
+        <Typography variant="h3" color="white">
           Sign In
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal text-center">
-          Enter your details to Sign In.
-        </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 mx-auto">
-          <div className="mb-4 flex flex-col gap-6">
-            <Input size="lg" color="green" label="Email" />
-            <Input type="password" color="green" size="lg" label="Password" />
-          </div>
+      </CardHeader>
+      <CardBody className="flex flex-col gap-4">
+        <Input label="Email" size="lg" />
+        <Input label="Password" size="lg" />
 
-          <Button className="mt-6 bg-red-500" fullWidth>
-            Sign In
-          </Button>
-          <Typography color="gray" className="mt-4 text-center font-normal">
-            Already have an account?{" "}
-            <a
-              href="#"
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700"
-            >
-              Sign Up
-            </a>
+      </CardBody>
+      <CardFooter className="pt-0">
+        <Button className="bg-black hover:shadow-blue-gray-200" fullWidth>
+          Sign In
+        </Button>
+        <Typography variant="small" className="mt-6 flex justify-center">
+          Don't have an account?
+          <Typography
+            as="a"
+            href="#signup"
+            variant="small"
+            color="blue"
+            className="ml-1 font-bold"
+          >
+            Sign up
           </Typography>
-        </form>
-      </Card>
-      </div>
-    );
-  }
+        </Typography>
+      </CardFooter>
+    </Card>
+    </div>
+
+  );
+}
