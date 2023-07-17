@@ -2,8 +2,10 @@
 import { Card, Input, Typography } from "@material-tailwind/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useCreateUserMutation } from "../../redux/api/apiSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-hot-toast';
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/user/userSlice";
 
 interface IFormInput {
   name: string;
@@ -20,6 +22,8 @@ export default function SignUp() {
   console.log(isError);
   console.log(isSuccess);
 
+  const dispatch = useAppDispatch()
+
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async(data) => {
@@ -33,7 +37,7 @@ export default function SignUp() {
       if (result.data.success) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         const user = result.data.data;
-        localStorage.setItem('user', JSON.stringify(user));
+        dispatch(setUser(user))
       }
 
       // Mutation was successful
@@ -79,7 +83,7 @@ export default function SignUp() {
             />
           </div>
           <Input
-            className="cursor-pointer bg-black text-white border-none"
+            className="cursor-pointer bg-blue-gray-900 text-white border-none"
             type="submit"
             value="Register"
             size="lg"
@@ -90,7 +94,7 @@ export default function SignUp() {
               href="#"
               className="font-medium text-blue-500 transition-colors hover:text-blue-700"
             >
-              Sign In
+              <Link to={'/signin'}>Sign In</Link>
             </a>
           </Typography>
         </form>

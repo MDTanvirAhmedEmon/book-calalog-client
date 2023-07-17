@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IBook } from '../../types/globaltypes';
 
 
 interface IUser {
@@ -32,7 +33,27 @@ export const api = createApi({
         body: data,
       }),
     }),
+    addNewBook: builder.mutation<IBook, Partial<IBook>>({
+      query: (book) => ({
+        url: `/api/v1/book/books`,
+        method: 'POST',
+        body: book,
+      }),
+    }),
+    getSingleBook: builder.query({
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      query: (id) => `/api/v1/book/${id}`
+    }),
+    editBook: builder.mutation<IBook, Partial<IBook>>({
+      query: ({id, data}) => ({
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        url: `/api/v1/book/${id}`,
+        method: 'PATCH',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetRecentBooksQuery, useGetBooksQuery, useCreateUserMutation, useSignInUserMutation } = api
+export const { useGetRecentBooksQuery, useGetBooksQuery, useCreateUserMutation, useSignInUserMutation, useAddNewBookMutation, useGetSingleBookQuery, useEditBookMutation } = api

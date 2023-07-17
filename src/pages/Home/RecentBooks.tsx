@@ -6,7 +6,7 @@ import { IBook } from "../../types/globaltypes";
 import BookCart from "./BookCart";
 
 const RecentBooks = () => {
-  const { data, isLoading } = useGetRecentBooksQuery(undefined);
+  const { data, isLoading } = useGetRecentBooksQuery(undefined, {refetchOnMountOrArgChange: true});
   console.log(data);
 
   return (

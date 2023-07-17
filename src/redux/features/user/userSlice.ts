@@ -1,26 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IUser } from "../../../types/globaltypes";
 
-interface IUser {
-    name: string | null;
-    email: string | null;
-    password: string | null;
+interface IState {
+    user: IUser,
 }
 
-const initialState: IUser = {
-    name:  null,
-    email:  null,
-    password:  null,
+const initialState: IState = {
+    user: null!
 };
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        // getSearchValue: (state, action: PayloadAction<string>) => {
-            
-        // }
+        setUser: (state, action: PayloadAction<IUser>) => {
+            state.user = action.payload
+        },
+        removeUser: (state ) => {
+            state.user = null!
+        },
     }
 });
 
-// export const {  } = userSlice.actions;
+export const { setUser, removeUser } = userSlice.actions;
 export default userSlice.reducer;

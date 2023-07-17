@@ -7,9 +7,12 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { removeUser } from "../../redux/features/user/userSlice";
 
 export default function Header() {
   const [openNav, setOpenNav] = useState(false);
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     window.addEventListener(
@@ -18,9 +21,15 @@ export default function Header() {
     );
   }, []);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const data = JSON.parse(localStorage.getItem("user"));
+  const {user: reduxUser} = useAppSelector((state) => state.user)
 
 
+
+  const handleLogOut = () => {
+    console.log('clicked log out');
+    localStorage.removeItem("user");
+    dispatch(removeUser())
+  }
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -45,15 +54,29 @@ export default function Header() {
         </Link>
       </Typography>
 
-      {data?.email ? (
-        <Typography
+      {reduxUser ? (
+          <>
+            <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal text-lg"
+          >
+            <Link className="flex items-center" to={"/addbook"}>
+              Add Book
+            </Link>
+          </Typography>
+          
+          <Typography
+        onClick={handleLogOut}
           as="li"
           variant="small"
           color="blue-gray"
-          className="p-1 font-normal text-lg"
+          className="p-1 font-normal text-lg cursor-pointer"
         >
           log out
         </Typography>
+          </>
       ) : (
         <>
           <Typography

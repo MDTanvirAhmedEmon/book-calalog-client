@@ -11,7 +11,7 @@ const AllBooks = () => {
     const { searchTerm } = useAppSelector((state) => state.search)
     console.log(searchTerm)
     const dispatch = useAppDispatch();
-    const { data, isLoading } = useGetBooksQuery(searchTerm);
+    const { data, isLoading } = useGetBooksQuery(searchTerm,{refetchOnMountOrArgChange: true});
 
     const handleInputChange = (event: { target: { value: string; }; }) => {
         dispatch(getSearchValue(event.target.value))

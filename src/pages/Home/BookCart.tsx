@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { IBook } from "../../types/globaltypes";
 import {
     Card,
@@ -26,7 +27,7 @@ type IProps = {
           </Typography>
         </CardBody>
         <CardFooter className="pt-0">
-          <Button className="bg-black">View Details</Button>
+         <Link to={`/book-details/${book._id as string}`}><Button className="bg-black">View Details</Button></Link> 
         </CardFooter>
       </Card>
     );

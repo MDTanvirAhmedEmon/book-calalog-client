@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Card, Input, Typography } from "@material-tailwind/react";
 import { useForm, SubmitHandler } from "react-hook-form";
-
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-hot-toast';
 import { useSignInUserMutation } from "../../redux/api/apiSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/user/userSlice";
 
 
 interface IFormInput {
@@ -17,6 +18,8 @@ export default function SignIn() {
 
   const [signInUser, { isLoading, isError, isSuccess }] =
     useSignInUserMutation();
+  
+  const dispatch = useAppDispatch();
 
   console.log(isLoading);
   console.log(isError);
@@ -35,8 +38,8 @@ export default function SignIn() {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (result) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        const user = result.data.data;
-        localStorage.setItem('user', JSON.stringify(user));
+        const user = result?.data?.data;
+        dispatch(setUser(user))
       }
 
       // Mutation was successful
@@ -46,6 +49,7 @@ export default function SignIn() {
   };
   if(isSuccess){
     toast('Sign In User Successfully');
+    navigate('/')
   }
 
 
@@ -76,7 +80,7 @@ export default function SignIn() {
             />
           </div>
           <Input
-            className=" bg-gray-900 cursor-pointer text-white border-none"
+            className="cursor-pointer bg-blue-gray-900 text-white border-none"
             type="submit"
             value="Sign In"
             size="lg"
@@ -87,7 +91,7 @@ export default function SignIn() {
               href="#"
               className="font-medium text-blue-500 transition-colors hover:text-blue-700"
             >
-              Sign Up
+              <Link to={'/signup'}>Sign Up</Link> 
             </a>
           </Typography>
         </form>
