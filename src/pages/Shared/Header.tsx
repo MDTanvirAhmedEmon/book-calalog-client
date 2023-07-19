@@ -5,6 +5,7 @@ import {
   MobileNav,
   Typography,
   IconButton,
+  Badge,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -22,7 +23,7 @@ export default function Header() {
   }, []);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const {user: reduxUser} = useAppSelector((state) => state.user)
-
+  const {wishlist} = useAppSelector((state) => state.wishlist)
 
 
   const handleLogOut = () => {
@@ -64,6 +65,18 @@ export default function Header() {
           >
             <Link className="flex items-center" to={"/addbook"}>
               Add Book
+            </Link>
+          </Typography>
+            <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal text-lg"
+          >
+            <Link className="flex items-center" to={"/wishlist"}>
+              <Badge content={wishlist.length}>
+              Wishlist
+              </Badge>
             </Link>
           </Typography>
           

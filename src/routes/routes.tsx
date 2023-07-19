@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import AddBook from "../pages/addBook/AddBook";
 import BookDetails from "../pages/BookDetails/BookDetails";
 import EditBook from "../pages/EditBook/EditBook";
+import WishList from "../pages/WishList/WishList";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
         {
             path: '/addbook',
             element: <PrivateRoute><AddBook></AddBook></PrivateRoute> 
+        },
+        {
+            path: '/wishlist',
+            element: <PrivateRoute><WishList></WishList></PrivateRoute> 
         },
         {
             path: '/editbook/:id',

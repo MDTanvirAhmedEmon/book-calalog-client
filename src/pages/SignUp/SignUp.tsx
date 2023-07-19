@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Card, Input, Typography } from "@material-tailwind/react";
+import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useCreateUserMutation } from "../../redux/api/apiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-hot-toast';
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/user/userSlice";
+import { IUser } from "../../types/globaltypes";
 
 interface IFormInput {
   name: string;
@@ -33,11 +34,10 @@ export default function SignUp() {
       const result = await createUser(data);
       console.log(result);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (result.data.success) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        const user = result.data.data;
-        dispatch(setUser(user))
+      if ('data' in result) {
+        // Safely access the 'data' property
+        const user = result.data.data as unknown as IUser;
+        dispatch(setUser(user));
       }
 
       // Mutation was successful
@@ -82,12 +82,9 @@ export default function SignUp() {
               label="Password"
             />
           </div>
-          <Input
-            className="cursor-pointer bg-blue-gray-900 text-white border-none"
-            type="submit"
-            value="Register"
-            size="lg"
-          />
+          <Button type="submit" className="mt-6 bg-blue-gray-900" fullWidth>
+          Register
+        </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}
             <a

@@ -8,12 +8,13 @@ import { useAppSelector } from '../redux/hooks';
 
   const PrivateRoute = ({ children }: IProps) => {
 
-    const { user } = useAppSelector((state) => state.user);
+    const {user: reduxUser} = useAppSelector((state) => state.user)
+    console.log(reduxUser)
 
     const { pathname } = useLocation();
 
 
-    if (!user?.email) {
+    if (!reduxUser?.email) {
       return <Navigate to="/signin" state={{ path: pathname }}></Navigate>;
     }
     return children;

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Card, Input, Typography } from "@material-tailwind/react";
+import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-hot-toast';
 import { useSignInUserMutation } from "../../redux/api/apiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/user/userSlice";
+import { IUser } from "../../types/globaltypes";
 
 
 interface IFormInput {
@@ -29,19 +30,18 @@ export default function SignIn() {
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async(data) => {
-    console.log(data);
+
     try {
  
       const result = await signInUser(data);
       console.log(result);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (result) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        const user = result?.data?.data;
-        dispatch(setUser(user))
-      }
 
+      if ('data' in result) {
+        // Safely access the 'data' property
+        const user = result.data.data as unknown as IUser;
+        dispatch(setUser(user));
+      }
       // Mutation was successful
     } catch (error) {
       console.log("Error occurred during user creation:", error);
@@ -79,12 +79,9 @@ export default function SignIn() {
               label="Password"
             />
           </div>
-          <Input
-            className="cursor-pointer bg-blue-gray-900 text-white border-none"
-            type="submit"
-            value="Sign In"
-            size="lg"
-          />
+          <Button type="submit" className="mt-6 bg-blue-gray-900" fullWidth>
+          Sign In
+        </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Don't have an account?{" "}
             <a

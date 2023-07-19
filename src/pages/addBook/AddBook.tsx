@@ -18,7 +18,7 @@ interface IFormInput {
 const AddBook = () => {
     // const navigate = useNavigate()
     const {user} = useAppSelector((state) => state.user)
-    const [addNewBook, {isError, isSuccess, isLoading}] = useAddNewBookMutation();
+    const [addNewBook, {isError}] = useAddNewBookMutation();
      console.log(isError);
 
     const authorId = user?._id as string;
@@ -30,7 +30,7 @@ const AddBook = () => {
         try{
             const result = await addNewBook(BookWithAuthorId)
             console.log(result)
-            if(result.data){
+            if(result){
                 toast('Book Added Successfully')
                 reset();
             }

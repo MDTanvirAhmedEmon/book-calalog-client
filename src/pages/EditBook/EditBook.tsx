@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 interface IFormInput {
+  _id: any;
   title: string;
   imageUrl: string;
   author: string;
@@ -14,14 +15,16 @@ interface IFormInput {
   reviews?: string; 
 }
 
+
 const EditBook = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data, isLoading } = useGetSingleBookQuery(id);
 
   const [editBook, { isSuccess }] = useEditBookMutation();
+  console.log(isSuccess)
 
-  const { register, handleSubmit, reset } = useForm<IFormInput>();
+  const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const options = {
@@ -31,7 +34,7 @@ const EditBook = () => {
     try {
       const result = await editBook(options);
       console.log(result);
-      if (result?.data) {
+      if (result) {
         toast('Book Edited Successfully');
         navigate('/allbooks');
       }
@@ -45,6 +48,7 @@ const EditBook = () => {
   }
 
 
+  // eslint-disable-next-line no-unsafe-optional-chaining, @typescript-eslint/no-unsafe-member-access
   const { title, author, imageUrl, genre } = data?.data;
 
   return (

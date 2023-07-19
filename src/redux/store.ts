@@ -4,6 +4,8 @@ import { api } from './api/apiSlice';
 import searchSlice from './features/user/searchSlice';
 import userSlice from './features/user/userSlice';
 import { persistReducer, persistStore } from 'redux-persist';
+import wishListSlice from './features/wishList/wishListSlice';
+
 
 const persistConfig = {
   key: 'root',
@@ -14,6 +16,7 @@ const persistConfig = {
 const rootReducer = combineReducers({ 
   search: searchSlice,
   user: userSlice,
+  wishlist: wishListSlice,
   [api.reducerPath] : api.reducer,
 })
 

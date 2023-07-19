@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Link } from "react-router-dom";
 import MyButton from "../../components/MyButton";
 import { useGetRecentBooksQuery } from "../../redux/api/apiSlice";
@@ -6,8 +8,9 @@ import { IBook } from "../../types/globaltypes";
 import BookCart from "./BookCart";
 
 const RecentBooks = () => {
-  const { data, isLoading } = useGetRecentBooksQuery(undefined, {refetchOnMountOrArgChange: true});
-  console.log(data);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { data } = useGetRecentBooksQuery(undefined, {refetchOnMountOrArgChange: true});
+
 
   return (
     <div className="py-20">
